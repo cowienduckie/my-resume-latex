@@ -20,6 +20,7 @@ jobs:
           path: resume.pdf
       - name: GitHub Releases
         uses: fnkr/github-action-ghr@v1.3
+        if: startsWith(github.ref, 'refs/tags/')
         env:
           GHR_PATH: resume.pdf
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
