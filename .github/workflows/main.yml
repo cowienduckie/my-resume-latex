@@ -1,5 +1,8 @@
 name: Build LaTeX document
-on: [push]
+on:
+  push:
+    branches:
+    - main
 jobs:
   build_latex:
     runs-on: ubuntu-latest
@@ -15,3 +18,8 @@ jobs:
         with:
           name: PDF
           path: resume.pdf
+      - name: GitHub Releases
+        uses: fnkr/github-action-ghr@v1.3
+        env:
+          GHR_PATH: resume.pdf
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
