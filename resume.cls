@@ -1,6 +1,6 @@
 \ProvidesClass{resume}
 
-\LoadClass[11pt,a4paper]{article} % Font size and paper type
+\LoadClass[10pt,a4paper]{article} % Font size and paper type
 
 \usepackage[parfill]{parskip} % Remove paragraph indentation
 \usepackage{array} % Required for boldface (\bf and \bfseries) tabular columns
@@ -78,7 +78,7 @@
       \setlength{\leftmargin}{0em} % Margin within the section
     }
     \item[]
-      }{
+          }{
   \end{list}
 }
 
