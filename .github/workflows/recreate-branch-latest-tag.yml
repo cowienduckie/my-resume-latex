@@ -7,17 +7,18 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
-        env:
+        with:
           TOKEN: ${{ secrets.PERSONAL_TOKEN_FOR_ACTIONS }}
 
       - name: Re-create branch latest tag
         run: |
           TAG_NAME="${GITHUB_REF#refs/heads/}-latest"
 
+          git tag -d $TAG_NAME || true
           git push origin --delete $TAG_NAME || true
 
           git tag $TAG_NAME
           git push origin $TAG_NAME
         env:
-          TOKEN: ${{ secrets.PERSONAL_TOKEN_FOR_ACTIONS }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN_FOR_ACTIONS }}
       
