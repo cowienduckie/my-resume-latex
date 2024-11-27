@@ -2,8 +2,7 @@ name: Build LaTeX document
 on:
   push:
     branches:
-      - master
-      - "**"
+      - "**/*"
 
 jobs:
   build_latex:
@@ -23,19 +22,12 @@ jobs:
           name: minhtran_resume
           path: resume.pdf
 
-      - name: Determine release file name
-        id: release_file_name
+      - name: Rename PDF file based on pushed branch
         run: |
-          if [ "${{ github.ref }}" == "refs/heads/master" ]; then
-            echo "RELEASE_FILE_NAME=resume_general.pdf" >> $GITHUB_ENV
-          else
-            BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
-              echo "RELEASE_FILE_NAME=resume_${BRANCH_NAME}.pdf" >> $GITHUB_ENV
-            fi
-
-      - name: Rename PDF file
-        run: mv resume.pdf ${{ env.RELEASE_FILE_NAME }}
-
+          RELEASE_FILE_NAME=resume_${(echo "${{ github.ref }}" | sed 's/refs\/heads\///')}.pdf
+          mv resume.pdf RELEASE_FILE_NAME
+          echo "RELEASE_FILE_NAME=${RELEASE_FILE_NAME}" >> $GITHUB_ENV
+          
       - name: Release
         uses: fnkr/github-action-ghr@v1.3
         env:
