@@ -24,9 +24,9 @@ jobs:
 
       - name: Rename PDF file based on pushed branch
         run: |
-          RELEASE_FILE_NAME=resume_${(echo "${{ github.ref }}" | sed 's/refs\/heads\///')}.pdf
-          mv resume.pdf RELEASE_FILE_NAME
-          echo "RELEASE_FILE_NAME=${RELEASE_FILE_NAME}" >> $GITHUB_ENV
+          RELEASE_FILE_NAME="resume_${GITHUB_REF#refs/heads/}.pdf"
+          mv resume.pdf "$RELEASE_FILE_NAME"
+          echo "RELEASE_FILE_NAME=$RELEASE_FILE_NAME" >> $GITHUB_ENV
           
       - name: Release
         uses: fnkr/github-action-ghr@v1.3
