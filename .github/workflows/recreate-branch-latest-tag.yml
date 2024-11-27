@@ -1,5 +1,8 @@
 name: Re-create branch latest tag
-on: [push]
+on:
+  push:
+    branches:
+      - "**"
 
 jobs:
   recreate-latest-tag:
