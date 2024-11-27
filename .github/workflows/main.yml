@@ -4,9 +4,6 @@ on: [push]
 jobs:
   build_latex:
     runs-on: ubuntu-latest
-    env:
-      TAG_NAME: "${{ GITHUB_REF#refs/heads/ }}-latest"
-      RELEASE_FILE_NAME: "resume_${{ GITHUB_REF#refs/heads/ }}.pdf"
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
@@ -22,15 +19,17 @@ jobs:
           name: minhtran_resume
           path: resume.pdf
 
-      - name: Delete existing latest tag
+      - name: Echo file name for branch
         run: |
+          RELEASE_FILE_NAME="resume_${GITHUB_REF#refs/heads/}.pdf"
+          mv resume.pdf "$RELEASE_FILE_NAME"
+          echo "RELEASE_FILE_NAME=$RELEASE_FILE_NAME" >> $GITHUB_ENV
+
+      - name: Re-create branch latest tag
+        run: |
+          TAG_NAME="${GITHUB_REF#refs/heads/}-latest"
           git tag -d $TAG_NAME || true
           git push origin :refs/tags/$TAG_NAME || true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create new latest tag
-        run: |
           git tag $TAG_NAME
           git push origin $TAG_NAME
         env:
@@ -40,5 +39,5 @@ jobs:
         if: always()
         uses: fnkr/github-action-ghr@v1.3
         env:
-          GHR_PATH: $RELEASE_FILE_NAME
+          GHR_PATH: ${{ env.RELEASE_FILE_NAME }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
