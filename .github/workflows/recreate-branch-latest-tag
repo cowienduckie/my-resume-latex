@@ -1,0 +1,22 @@
+name: Re-create branch latest tag
+on: [push]
+
+jobs:
+  recreate-latest-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+
+      - name: Re-create branch latest tag
+        run: |
+          TAG_NAME="${GITHUB_REF#refs/heads/}-latest"
+
+          git tag -d $TAG_NAME || true
+          git push origin :refs/tags/$TAG_NAME || true
+
+          git tag $TAG_NAME
+          git push origin $TAG_NAME
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
