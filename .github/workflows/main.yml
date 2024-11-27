@@ -42,5 +42,5 @@ jobs:
       - name: Release
         uses: fnkr/github-action-ghr@v1.3
         env:
-          GHR_PATH: "${{ RELEASE_FILE_NAME }}"
+          GHR_PATH: $RELEASE_FILE_NAME
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
