@@ -3,6 +3,7 @@ on: [push]
 
 jobs:
   recreate-latest-tag:
+    if: ${{ startsWith(github.ref, 'refs/heads/') }}
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
@@ -21,4 +22,3 @@ jobs:
           git push origin $TAG_NAME
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN_FOR_ACTIONS }}
-      
