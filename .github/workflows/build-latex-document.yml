@@ -19,13 +19,12 @@ jobs:
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
         with:
-          name: minhtran_resume
+          name: minhtran-resume
           path: resume.pdf
 
       - name: Echo file name for tag
         run: |
-          RELEASE_FILE_NAME="resume_${GITHUB_REF#refs/tags/}.pdf"
-          mv resume.pdf "$RELEASE_FILE_NAME"
+          RELEASE_FILE_NAME="resume-${GITHUB_REF#refs/tags/}.pdf"
           echo "RELEASE_FILE_NAME=$RELEASE_FILE_NAME" >> $GITHUB_ENV
 
       - name: Release
