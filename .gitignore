@@ -304,3 +304,8 @@ TSWLatexianTemp*
 *.pdf
 *.ist
 *.ntn
+
+# Custom
+.vscode/
+.idea/
+.DS_Store
